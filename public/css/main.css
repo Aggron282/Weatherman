@@ -1,0 +1,165 @@
+.row{
+  width:100%;
+}
+
+.width-100{
+  width:100%;
+}
+
+.button_weather{
+  border:2px solid #202020;
+  border-radius:0px;
+  margin-top:2.5%;
+}
+
+.login_button{
+  background:none;
+  color:#FCF5E5;
+}
+
+.button_weather:hover{
+  border-color:  #FCF5E5;
+  transition:  all .3s;
+  color:  #FCF5E5;
+}
+
+.exit_child{
+  position: absolute;
+  opacity: 1;
+  z-index:5;
+  color:white;
+}
+
+.exit_child:hover{
+  animation:exit infinite 1s ease-in;
+}
+
+@keyframes exit{
+  0%{
+    opacity:0;
+    transform:scale(1);
+
+  }
+  20%{
+    transform:scale(1.5);
+    opacity:1;
+  }
+
+  100%{
+    opacity:0;
+    transform:scale(1);
+
+  }
+}
+
+#forcast_video{
+  min-width:100%;
+  z-index: 0;
+  height:120%;
+  box-sizing: content-box;
+  position: absolute;
+}
+source{
+  width:100%;
+  height:100%;
+}
+.container-fluid{
+  margin:0;
+  padding:0;
+  width:100%;
+}
+body{
+  overflow-x: hidden;
+}
+.navbar_row{
+  box-sizing: content-box;
+}
+
+.inactive{
+  visibility: hidden;
+}
+
+.relative{
+  position: relative;
+}
+.info_item_name{
+  clear:both;
+}
+.weather_main_overview_container{
+  position: absolute;
+  top:0%;
+  left:0;
+  width:100%;
+  height:100%;
+}
+
+.logo_name{
+  font-size: 25px;
+  margin-top:5%;
+  font-weight:300;
+  color:#FCF5E5;
+
+  font-family: "IBM Plex Sans";
+  float:left;
+  margin-top:2.5%;
+  margin-left:5%;
+}
+.navbar_row{
+  padding:1%;
+  background:#171717;
+}
+.logo{
+  width:70px;
+  height:70px;
+  float:left;
+  margin-left:2.5%;
+}
+.button_weather{
+  float: right;
+  color:#FCF5E5;
+  margin-right:5%;
+}
+
+.account_button{
+  background:none;
+}
+
+.weather_input{
+  width:95%;
+  float:left;
+  border:none;
+  height:6%;
+  padding:1%;
+  outline:none;
+  box-shadow :0px 0px 0px #e6e6e6;
+  transition: all .5s;
+  border:1px solid #e6e6e6;
+}
+
+.search_icon{
+  display:inline;
+  float:left;
+  padding:.9%;
+  height:5%;
+  border:1px solid #e6e6e6;
+  border-right:none;
+}
+
+
+.weather_input:focus{
+  box-shadow :0px 0px 30px #e6e6e6;
+  border-color: teal !important;
+}
+.weather_input:focus + .search_icon{
+  background:black !important;
+
+}
+.weather_input:focus + .search_icon img{
+  filter:brightness(100);
+}
+
+.search_icon img{
+  height:50%;
+  margin:auto;
+  width:50%;
+}

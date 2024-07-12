@@ -1,0 +1,70 @@
+.weather_col{
+  width:5.8333333333%;
+  flex:5.8333333333%;
+  box-sizing: border-box;
+  max-width:5.8333333333%;
+  float:left;
+}
+
+.weather_week_row{
+  margin-top: 2.5%;
+  margin-bottom: 2.5%;
+  box-sizing: content-box;
+  width:90%;
+  margin-left:5%;
+}
+
+.forcast_box:hover{
+  opacity: 1;
+  transform:scale(1.1);
+}
+#forcast_active{
+
+    opacity: 1 !important;
+    transform:scale(1.1) !important;
+
+}
+.forcast_box{
+  transition: all .2s;
+  width:100%;
+  transform:scale(1);
+  padding:2.5%;
+  box-shadow:0px 0px 10px rgba(0,0,0,.5);
+  background:black;
+  opacity:.6;
+  text-align: center;
+  color:white;
+  font-family: monospace;
+  border-radius:10px;
+}
+
+.forcast_icon{
+  width:50%;
+  margin-left:0%;
+}
+
+.temp_forcast{
+  color:white;
+  margin-top:-15px;
+  font-size:18px;
+  text-align: center;
+}
+
+.temp_overview_forcast{
+  text-align: center;
+  font-size:15px;
+}
+
+.day_forcast{
+  font-size: 15px;
+}
+
+body{
+  width: 100vw;
+  height: 100vh;
+  background-size:cover;
+}
+
+*{
+  box-sizing: border-box;
+ }

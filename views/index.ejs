@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Weatherman</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link href="https://fonts.cdnfonts.com/css/amazon-ember" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Allerta+Stencil&family=Archivo+Black&family=Dancing+Script:wght@400..700&family=Exo+2:wght@600&family=Exo:wght@800;900&family=Heebo:wght@800&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,900;1,600&family=Nanum+Gothic+Coding&family=Noto+Sans:wght@300&family=Poppins:wght@600&family=Protest+Revolution&family=Roboto+Condensed:wght@300;400&family=Roboto:ital,wght@0,300;1,100&family=Rubik+Distressed&family=Rubik+Moonrocks&family=Special+Elite&family=Teko:wght@300;500&family=Vast+Shadow&family=Work+Sans:wght@200;300;400&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <link href="./css/main.css" rel="stylesheet">
+    <link href="./css/overview.css" rel="stylesheet">
+    <link href="./css/weekly_forcast.css" rel="stylesheet">
+    <link href="./css/searches.css" rel="stylesheet">
+
+    <link rel="icon" href="./imgs/forcast.png">
+
+
+  </head>
+
+  <body>
+    <video  muted autoplay loop class="inactive" id = "forcast_video">
+    </video>
+    <header class="navbar container-fluid">
+      <div class="row navbar_row">
+        <div class="col-4">
+          <img class="logo" src = "./imgs/logo.png">
+          <p class="logo_name"> Weatherman </p>
+        </div>
+        <div class="col-4"></div>
+        <div class="col-4">
+          <button class="btn button_weather login_button ">
+            Login
+          </button>
+          <button class="btn button_weather account_button">
+            Create Account
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="container-fluid">
+        <div class="weather_search_container"style="padding:2.5%">
+            <div class="row">
+              <div class="col-12">
+                  <div class="width-100">
+                    <form onsubmit = "event.preventDefault();" id = "search_form" action = "/search/" method = "POST">
+                    <span class="search_icon">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                       </svg>
+                     </span>
+                     <input name = "place" class="weather_input" placeholder = "Enter a Valid City or State" >
+                    </form>
+                  </div>
+              </div>
+            </div>
+        </div>
+        <div class="weather_row_container relative">
+          <div class="searches_container">
+            <div class="searches_row"></div>
+          </div>
+            <div class = "weather_dashboard_container ">
+                <div class="row dashboard_row">
+                </div>
+            </div>
+            <div class="weather_main_overview_container inactive">
+              <p class= "weather_overview_title"> </p>
+              <p class= "weather_overview_weather"> </p>
+              <p class= "day_text"> </p>
+              <div class="weather_week_row container-fluid">
+                <div class="row week_row">
+
+                </div>
+              </div>
+              <p class= "exit_weather" clickable = 0><span class="exit_child">X</span> <span classs="exit_weather_1">X</span> </p>
+
+                <div class="row info_box">
+                  <div class="col-6 shadow_box">
+                    <div class="row">
+                        <div class="col-6">
+                          <div class="basic_info_container basic_info_container--1">
+                              <ul>
+                                <li class="info_item">
+                                  <span class = "info_item_name"> Temperature Low: </span>
+                                  <span class="info_item_value" info = "temperature-min"> 3</span>
+                                </li>
+                                <li class="info_item">
+                                  <span class = "info_item_name"> Temperature High: </span>
+                                  <span class="info_item_value" info = "temperature-max"> </span>
+                                </li>
+                                <li class="info_item">
+                                  <span class = "info_item_name"> Temperature Avg: </span>
+                                  <span class="info_item_value" info = "temperature-average"> </span>
+                                </li>
+                              <ul>
+                            </div>
+
+
+                        </div>
+                        <div class="col-5 ">
+                          <div class="basic_info_container basic_info_container--2">
+                              <ul>
+                                <li class="info_item">
+                                  <span class = "info_item_name"> Cloud Coverage: </span>
+                                  <span class="info_item_value" info = "cloud-coverage"> </span>
+                                </li>
+                                <li class="info_item">
+                                  <span class = "info_item_name"> Precipitation: </span>
+                                  <span class="info_item_value" info = "precipitation-chance"> </span>
+                                </li>
+                                <li class="info_item">
+                                  <span class = "info_item_name"> Wind Gust: </span>
+                                  <span class="info_item_value" info = "wind-min"> </span>
+                                </li>
+                              <ul>
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="col-5 shadow_box">
+
+                      <div class="row">
+                          <div class="col-6">
+                            <div class="detailed_info_container basic_info_container--1">
+                                <ul>
+                                  <li class="info_item">
+                                    <span class = "info_item_name"> Dewpoint Avg: </span>
+                                    <span class="info_item_value" info = "dewpoint"> </span>
+                                  </li>
+                                  <li class="info_item">
+                                    <span class = "info_item_name"> Snow Intensity: </span>
+                                    <span class="info_item_value" info = "snow-intensity"> </span>
+                                  </li>
+
+                                <ul>
+                              </div>
+
+
+                          </div>
+                          <div class="col-6">
+                            <div class="basic_info_container basic_info_container--2">
+                                <ul>
+                                  <li class="info_item">
+                                    <span class = "info_item_name"> Sleet Intensity: </span>
+                                    <span class="info_item_value" info = "sleet-intensity"> </span>
+                                  </li>
+
+                                  <li class="info_item">
+                                    <span class = "info_item_name"> Wind Gust: </span>
+
+                                    <span class="info_item_value" info = "wind-gust"> </span>
+                                  </li>
+                                <ul>
+                              </div>
+                          </div>
+                      </div>
+
+                    </div>
+                  </div>
+
+            </div>
+
+
+        </div>
+
+
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src = "./js/save_and_populate.js"></script>
+    <script src = "./js/main.js"></script>
+  </body>
+</html>
