@@ -10,6 +10,30 @@
   z-index:9;
   height:80vh;
 }
+@keyframes fade_in{
+  0%{
+    opacity:0
+  }
+  100%{
+    opacity:1
+  }
+}
+.no_search_img{
+  animation:fade_in 1 ease-in .5s;
+}
+@keyframes weather {
+  0%{
+    transform:scale(0);
+
+  }
+  100%{
+    transform:scale(1);
+  }
+}
+
+.weather_main_active{
+  animation:weather .5s ease-in 1;
+}
 
 #forcast_video{
   background:linear-gradient(rgba(0,0,0,.5),rgba(0,0,0,.5)) !important;
