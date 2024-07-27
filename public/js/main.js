@@ -3,7 +3,8 @@
 var submit = document.querySelector("#search_form");
 var input = document.querySelector(".weather_input");
 var weather_overview_container = document.querySelector(".weather_main_overview_container");
-var searches_container = document.querySelector(".searches_container");
+var overview = document.querySelector(".weather_overview_weather");
+var search_bar = document.querySelector(".weather_search_container");
 
 const CLOUDY_STANDARD = 30;
 
@@ -16,6 +17,9 @@ const FREEZING_TEMP_STANDARD = 35;
 const CLOUD_COVER_STANDARD = 40;
 const CLOUD_PARTLY_COVER_STANDARD = 25;
 const PRECIPITATION_STANDARD = 35;
+
+const NO_RESULTS_SRC = "./imgs/no_results.png";
+const ENTER_ADDRESS_SRC = "./imgs/weather_placeholder.png"
 
 var weather_title;
 var exit_weather;
@@ -71,6 +75,57 @@ const WEATHER_FIXED_CONFIG = {
 
 var weather_config;
 
+function RenderNoResult(src,description){
+  return(`
+    <div class="no_searched_container">
+      <img class="no_search_img" src = ${src}>
+      <p class="title_search_none">
+      ${description}
+      </p>
+    </div> `
+  );
+}
+
+async function RenderDefault(isSearched){
+
+  var searches_container = document.querySelector(".searches_container");
+  var html = ``
+
+    GetSearches((searches)=>{
+
+      if(searches.length > 0){
+
+        html = ``;
+
+        for(var i =0; i < searches.length; i++){
+
+          var m = searches[i].date.getMonth();
+          var d = searches[i].date.getDay();
+          var y = searches[i].date.getFullYear();
+          var config_date = `${m}-${d}-${y}`;
+
+          html += RenderSearches(searches[i].title, config_date);
+        }
+
+        searches_container.innerHTML = html;
+        AddPastSearchEvents();
+
+      }else{
+
+        if(!isSearched){
+          html = RenderNoResult(ENTER_ADDRESS_SRC,"Enter Address");
+        }else{
+          html = RenderNoResult(NO_RESULTS_SRC,"No Results");
+        }
+
+        searches_container.innerHTML = html;
+
+      }
+
+    });
+
+}
+
 function RenderForcast(forcast,target){
 
   var html = ``;
@@ -99,7 +154,7 @@ function RenderForcast(forcast,target){
     }
 
 
-}
+  }
 
   row.innerHTML = html;
 
@@ -174,58 +229,41 @@ function DetermineWeather(weather_data){
     if(weather_data.precipitationProbabilityAvg > PRECIPITATION_STANDARD){
       chosen_style = WEATHER_FIXED_CONFIG.snow;
       has_decided_weather = true;
-
     }
-
   }
-
   else if(weather_data.precipitationProbabilityAvg > STORM_STANDARD && !has_decided_weather){
     chosen_style = WEATHER_FIXED_CONFIG.storm;
     has_decided_weather = true;
-
   }
-
   else if(weather_data.precipitationProbabilityAvg > RAIN_STANDARD && !has_decided_weather){
     chosen_style = WEATHER_FIXED_CONFIG.rain;
     has_decided_weather = true;
-
-
   }
-
   else if(weather_data.precipitationProbabilityAvg > CLOUDY_STANDARD && !has_decided_weather){
     chosen_style = WEATHER_FIXED_CONFIG.cloudy;
     has_decided_weather = true;
-
   }
-
   else if(weather_data.cloudCoverAvg > CLOUD_COVER_STANDARD && !has_decided_weather){
     chosen_style = WEATHER_FIXED_CONFIG.cloudy;
     has_decided_weather = true;
-
   }
-
   else if(weather_data.cloudCoverAvg > CLOUD_PARTLY_COVER_STANDARD && !has_decided_weather){
     chosen_style = WEATHER_FIXED_CONFIG.partly_cloudy;
     has_decided_weather = true;
-
   }
-
   else if(!has_decided_weather){
     chosen_style = WEATHER_FIXED_CONFIG.clear;
     has_decided_weather = true;
-
-  }else{
+  }
+  else{
     chosen_style = WEATHER_FIXED_CONFIG.clear;
     has_decided_weather = true;
-
   }
-
 
   var results = {
     chosen_data:weather_data,
     chosen_style:chosen_style
   }
-
 
   return results;
 
@@ -235,81 +273,8 @@ submit.addEventListener("submit",(e)=>{
 
   e.preventDefault();
   input = document.querySelector(".weather_input");
-  var overview = document.querySelector(".weather_overview_weather");
-  var location = document.querySelector(".weather_overview_title");
-  var search_bar = document.querySelector(".weather_search_container");
-
-  exit_button = document.querySelector(".exit_weather");
-
-  var value = input.value;
-  place = value;
-
-  axios.post("/search",{place:value}).then((res)=>{
-
-    if(!res.data)
-    {
-      var html_fixed = `
-      <div class="no_searched_container">
-        <img class="no_search_img" src = "./../imgs/no_results.png"/>
-        <p class="title_search_none">
-          No Results
-        </p>
-      </div> `
-
-      searches_container.innerHTML = html_fixed;
-
-      return;
-
-    }
-
-    var weather_data = res.data.snapshot;
-    var forcast_weekly = res.data.forcast_weekly;
-    var searches_container = document.querySelector(".searches_container");
-    var chosen_style = DetermineWeather(weather_data).chosen_style;
-
-    forcast_data = forcast_weekly;
-
-    ClearData();
-    PopulateWeather(res.data.day - 1,input.value,chosen_style,weather_data);
-    RenderForcast(forcast_weekly,null)
-    AddForcastEvents();
-    AddSearchToList(weather_data,input.value);
-
-    searches_container.innerHTML = "";
-
-    weather_overview_container.classList.remove("inactive");
-    search_bar.classList.add("inactive");
-    weather_overview_container.classList.add("weather_main_active");
-
-    exit_weather = document.querySelector(".exit_weather");
-
-    exit_weather.setAttribute("clickable",1);
-
-    exit_weather.addEventListener("click",(e)=>{
-
-      if(exit_weather){
-
-        if(exit_weather.getAttribute("clickable") == 1){
-          ExitOutOfOverview();
-        }
-
-      }
-
-    });
-
-  }).catch((err)=>{
-
-    var html_fixed = `
-    <div class="no_searched_container">
-      <img class="no_search_img" src = "./../imgs/no_results.png"/>
-      <p class="title_search_none">
-        No Results
-      </p>
-    </div> `
-
-    searches_container.innerHTML = html_fixed;
-
-  });
+  var value = input.innerHTML;
+  SubmitSearch(value);
 
 });
 
@@ -320,7 +285,6 @@ function CelsiusConverter(temp){
   return Math.round(farenheight);
 
 }
-
 
 function PopulateDayFromWeek(day,target){
 
@@ -343,7 +307,6 @@ function PopulateDayFromWeek(day,target){
   AddForcastEvents();
 
 }
-
 
 function ClearData(){
 
@@ -434,7 +397,6 @@ function PopulateWeather(day,location,style,config){
 
 }
 
-
 function ExitOutOfOverview(){
 
   ClearData();
@@ -456,15 +418,7 @@ function ExitOutOfOverview(){
 
   weather_overview_container.classList.remove("weather_main_active");
 
-  var html_fixed = `
-  <div class="no_searched_container">
-    <img class="no_search_img" src = "./../imgs/weather_placeholder.png"/>
-    <p class="title_search_none">
-      Enter Address
-    </p>
-  </div> `
-
-  searches_container.innerHTML = html_fixed;
+  RenderDefault(false);
 
 }
 
@@ -480,13 +434,4 @@ function toTitleCase(str) {
 
 }
 
-PopulateSearches();
-  var html_fixed = `
-<div class="no_searched_container">
-  <img class="no_search_img" src = "./../imgs/weather_placeholder.png"/>
-  <p class="title_search_none">
-    Enter Address
-  </p>
-</div> `
-
-searches_container.innerHTML = html_fixed;
+RenderDefault(false);

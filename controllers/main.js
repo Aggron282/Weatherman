@@ -5,7 +5,7 @@ var custom_url = require("./../util/util.js").customUrl;
 var node_geocode = require("node-geocoder");
 var Locations = require("./../data/locations.js");
 var  climacellDocs  = require('./../.api/apis/climacell-docs');
-
+var User = require("./../data/users.js");
 
 var weather_data = {
   precipitationProbabilityAvg:0,
@@ -16,6 +16,8 @@ var weather_data = {
   cloudCoverAvg:0,
 }
 
+
+
 var forcast_weekly = [];
 
 const options = {
@@ -25,10 +27,116 @@ const options = {
 
 const geocoder = node_geocode(options);
 
-const GetMainPage = (req,res,next) =>{
-  res.render(path.join(__dirname,"..","views","index.ejs"));
+
+const GetPastSearches =(req,res)=>{
+
+  if(req.user){
+    res.json(req.user.searches);
+  }
+  else{
+    res.json(false);
+    
+  }
+
 }
 
+const GetMainPage = (req,res,next) =>{
+
+  var isAuth =  req.user != null ? true : false;
+
+  res.render(path.join(__dirname,"..","views","index.ejs"),{
+    isAuthenticated:isAuth,
+    user:req.user
+  });
+
+}
+
+const GetLoginPage = (req,res,next) =>{
+
+  var isAuth = req.user != null ? true : false;
+
+  res.render(path.join(__dirname,"..","views","login.ejs"),{
+    isAuthenticated:isAuth,
+    user:req.user
+  });
+
+}
+
+const GetCreateAccountPage = (req,res,next) =>{
+
+  var isAuth =  req.user != null ? true : false;
+
+  res.render(path.join(__dirname,"..","views","create_account.ejs"),{
+    isAuthenticated:isAuth,
+    user:req.user
+  });
+
+}
+
+const CreateAccount = async (req,res,next) =>{
+
+  var account = {
+    username: req.body.username,
+    password:req.body.password,
+    name:req.body.name,
+    address:""
+  }
+
+  var new_user = new User(account);
+
+  await new_user.save();
+
+  if(new_user){
+
+    if(req.session){
+
+      req.session.user = new_user;
+
+      req.session.save();
+    }
+
+    res.json(new_user);
+
+  }
+  else{
+    res.json(false)
+  }
+
+}
+
+const Login = async (req,res,next)=>{
+
+  var account = {
+    username:req.body.username,
+    password:req.body.password
+  }
+
+  User.findOne({username:account.username}).then((user_found)=>{
+
+    if(!user_found){
+      res.json(false);
+    }
+    else{
+
+      if(user_found.password === account.password){
+
+        if(req.session){
+          req.session.user = user_found;
+          req.session.save();
+        }
+
+        res.json(user_found);
+
+      }
+      else{
+        res.json(false);
+      }
+
+    }
+
+  })
+
+}
 
 const ConvertLocation =  async (place) =>{
 
@@ -54,8 +162,6 @@ const ConvertLocation =  async (place) =>{
 
 }
 
-
-
 var FindTimeline = (latitude,longitude,cb) => {
 
 
@@ -67,9 +173,6 @@ var FindTimeline = (latitude,longitude,cb) => {
   var timesteps = "1h";
   var units = "metric";
   var url = `https://data.climacell.co/v4/timelines?apikey=${key}&location=${location}&fields=${fields}&startTime=${startTime}&endTime=${endTime}&timesteps=${timesteps}&units=${units}`
-
-
-  console.log(url);
 
   axios.get(url,
     {
@@ -107,14 +210,14 @@ const PostTimeline = async (req,res)=>{
 
 const PostWeatherData = async (req,res,next) => {
 
-  var place = req.body.place;
-  var latitude;
-  var longitude;
+    var place = req.body.place;
+    var latitude;
+    var longitude;
 
-  if(req.params == {} || !req.params){
-    console.log("Not found");
-    return res.send(false);
-  }
+    if(req.params == {} || !req.params){
+      console.log("Not found");
+      return res.send(false);
+    }
 
     var location = await ConvertLocation(place);
     var custom_endpoint = custom_url(location.latitude,location.longitude);
@@ -154,7 +257,7 @@ const PostWeatherData = async (req,res,next) => {
       }
 
       var now = new Date();
-
+      var user = req.user;
       var data = {
         snapshot:today_weather_data,
         forcast_weekly:forcast_weekly,
@@ -168,21 +271,41 @@ const PostWeatherData = async (req,res,next) => {
         day:now.getDay()
       };
 
-      var new_entry = new Locations(data);
-      new_entry.save();
+      if(user){
+        user.AddSearch(user,data,(result)=>{
+          console.log(result);
+        })
+
+      }
 
       return data;
 
-
     }).then((data)=>{
+
       res.json(data);
+
     }).catch((err)=>{console.log(err)})
 
-  }
+}
 
+const Logout = (req,res,next) => {
 
+  req.user = null;
 
+  var isAuth = req.user != null ? true : false;
 
+  res.redirect("/",{
+    isAuthenticated:isAuth
+  });
+
+}
+
+module.exports.GetLoginPage = GetLoginPage;
+module.exports.Login = Login;
+module.exports.Logout = Logout;
+module.exports.CreateAccount = CreateAccount;
+module.exports.GetCreateAccountPage = GetCreateAccountPage;
 module.exports.GetMainPage = GetMainPage;
+module.exports.GetPastSearches = GetPastSearches;
 module.exports.PostWeatherData = PostWeatherData;
 module.exports.PostTimeline = PostTimeline;

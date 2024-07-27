@@ -42,24 +42,14 @@ const PopulateSearches = () => {
     if(searched_forcasts.length > 0 && searched_forcasts){
 
       for(var i = 0; i < searched_forcasts.length; i++){
-        console.log(searched_forcasts[i].place)
-        if(!searched_forcasts[i]){
-          var html_fixed = `
-          <div class="no_searched_container">
-            <img class="no_search_img" src = "./../imgs/weather_placeholder.png"/>
-            <p class="title_search_none">
-              No Results
-            </p>
-          </div> `
-
-          searches_container.innerHTML = html_fixed;
+          RenderDefault(true);
           return;
         }
         axios.post("/search",{place:searched_forcasts[i].place}).then((response)=>{
 
           var snapshot = response.data.snapshot;
-          console.log(response.data)
           var style = DetermineWeather(snapshot).chosen_style;
+
           var html_fixed = `
             <div class="col-3">
               <div class="search_container" >
@@ -72,26 +62,16 @@ const PopulateSearches = () => {
             html += html_fixed;
 
         });
+        searches_row.innerHTML = html;
 
       }
 
-      searches_row.innerHTML = html;
-
-  }
   else{
-    var html_fixed = `
-    <div class="no_searched_container">
-      <img class="no_search_img" src = "./../imgs/weather_placeholder.png"/>
-      <p class="title_search_none">
-        No Results
-      </p>
-    </div> `
-
-    searches_container.innerHTML = html_fixed;
+    
+    RenderDefault(true);
 
   }
 
-  console.log(searched_forcasts)
 
 
 }

@@ -26,6 +26,7 @@ var Weather = new Schema(
       required:false
   }
 }
+
 );
 
 module.exports = mongoose.model("location",Weather);

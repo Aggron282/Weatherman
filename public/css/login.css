@@ -1,0 +1,136 @@
+.login_container{
+  height:100vh;
+  padding-bottom:5%;
+  overflow-x: hidden;
+  width:100%;
+}
+body{
+}
+.container-fluid{
+  padding:0%;
+  background-image:url("./../imgs/weather_34.png") !important;
+}
+.login_mod{
+  background:white;padding:5%;padding-bottom:25%;margin-top:20%;
+  position: relative;
+
+}
+.google_login{
+  margin-top:5%;
+  background:white;
+}
+.google_login .abcRioButton{
+  width:100% !important;
+
+}
+.google_login .abcRioButton  .abcRioButtonContentWrapper{
+  width:100% !important;
+}
+.authentication_container{
+  background:white;
+  margin:5%;
+  box-shadow:0px 0px 10px rgba(0,0,0,.5);
+  animation: appear 1 ease-in .75s;
+
+  border-radius:10px;
+  padding:5%;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+.error_{
+  box-shadow: 0px 0px 10px red !important;
+  border-color:red !important;
+}
+@keyframes appear {
+  0%{
+    transform:translateX(-1200px);
+  }
+  100%{
+    transform:translateX(0px);
+  }
+}
+form p{
+  font-family: "Amazon Ember";
+
+}
+.login_subtitle{
+  text-align: left;
+  font-weight:300;
+  width:80%;
+  font-size:20px;
+  font-family: "Amazon Ember";
+}
+.logo_login{
+  width:30%;
+  margin-left: 5%;
+}
+.login_title{
+  text-align: left;
+  font-weight:250;
+
+  font-size:30px;
+  font-family: "Amazon Ember";
+}
+.form_container{
+  width:50%;
+  float:right;
+}
+.intro_container{
+  width:50%;
+  float:left;
+}
+.login_button:hover{
+opacity:1;
+}
+.login_button{
+  background-image:url("./../imgs/weather_34.png");
+  padding:2%;
+  margin-top:10%;
+  opacity:.6;
+  color:white;
+  font-size:17px;
+  border-color:#2AB1FF;
+  transition:  all .5s;
+  border-width:0px;
+  border-radius:15px;
+  width:100%;
+
+}
+.forgot_pass{
+  text-align: right;
+  color:grey;
+  margin-top:1%;
+  font-size:13px;
+}
+.login_row label {
+  width:100%;
+  font-size:15px;
+  font-family: "Amazon Ember";
+}
+.login_row input{
+  margin-top:2.5%;
+  width:100%;
+  border:none;
+  padding:10px;
+  border-bottom:2px solid #e6e6e6;
+  border-radius:2px;
+  box-shadow:0px 0px 1px rgba(0,0,0,.5);
+}
+.login_row input:focus{
+  outline:none;
+  box-shadow:0px 0px 5px rgba(12, 192, 223, 1);
+  border-color:#0CC0DF;
+}
+.error_:focus{
+  border-color:red !important;
+
+}
+
+.login_form{
+  font-size:14px;
+  padding:1%;
+}
+.login_row{
+  width:100%;
+  margin-top:2.5%;
+}

@@ -1,0 +1,33 @@
+.past_search_container{
+  margin-top:15px;
+  box-shadow: 0px 0px 20px rgba(0,0,0,.5);
+  padding:20px;
+  border-radius: 10px;
+  transition: all .3s;
+  transform:translateY(0px);
+  overflow: auto;
+  padding-right: 30px;
+  padding-left: 30px;
+}
+
+.past_search_container:hover{
+  transform:translateY(-10px);
+}
+
+
+.past_search_container p{
+  font-size:20px;
+  font-family: "Nanum Gothic Coding";
+  font-weight:200;
+
+}
+
+.past_search_container .search_title{
+  float: left;
+
+}
+.past_search_container .search_time{
+  float: right;
+  text-align: center;
+
+}

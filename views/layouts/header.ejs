@@ -1,0 +1,41 @@
+<header class="navbar container-fluid">
+
+  <div class="row navbar_row">
+
+    <div class="col-4">
+      <img class="logo" src = "./imgs/logo.png">
+      <p class="logo_name"> Weatherman </p>
+    </div>
+
+    <div class="col-4"></div>
+
+    <% if(!isAuthenticated) { %>
+      <div class="col-4">
+
+        <a href = "/login">
+          <button class="btn button_weather login_button ">
+          Login
+         </button>
+        </a>
+
+        <a href = "/create_account">
+         <button class="btn button_weather account_button">
+          Create Account
+        </button>
+        </a>
+
+      </div>
+
+    <%}else{%>
+
+      <div class="col-4">
+        <a href = "/logout"><button class="btn button_weather account_button">
+        Logout
+        </button></a>
+      </div>
+
+    <%}%>
+
+  </div>
+  
+</header>
