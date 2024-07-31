@@ -25,7 +25,6 @@ function SubmitAccount(e){
 
 }
 
-
 function CreateAccount(username,password,name){
 
   axios.post("/create_account",{username:username,password:password,name:name}).then((data)=>{

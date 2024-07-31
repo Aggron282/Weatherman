@@ -14,20 +14,17 @@
   transform:translateY(-10px);
 }
 
-
 .past_search_container p{
   font-size:20px;
   font-family: "Nanum Gothic Coding";
   font-weight:200;
-
 }
 
 .past_search_container .search_title{
   float: left;
-
 }
+
 .past_search_container .search_time{
   float: right;
   text-align: center;
-
 }

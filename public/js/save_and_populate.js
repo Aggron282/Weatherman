@@ -1,5 +1,6 @@
 
 var searched_forcasts = [];
+
 var searches_row = document.querySelector(".searches_row");
 var searches_container = document.querySelector(".searches_container");
 
@@ -26,11 +27,9 @@ const AddSearchToList = (forcast,place)=>{
 
 }
 
-
 const ClearSearchRow = () => {
   searches_container.innerHTML = "";
 }
-
 
 const PopulateSearches = () => {
 
@@ -62,16 +61,12 @@ const PopulateSearches = () => {
             html += html_fixed;
 
         });
+
         searches_row.innerHTML = html;
 
-      }
-
-  else{
-    
-    RenderDefault(true);
-
-  }
-
-
+    }
+    else{
+      RenderDefault(true);
+    }
 
 }

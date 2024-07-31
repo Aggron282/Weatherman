@@ -8,9 +8,9 @@ function RenderSearches(title,time,id){
     </p>
 
     <p class="search_time">
-    Time of Search
-    <br>
-    ${time}
+      Time of Search
+      <br>
+      ${time}
     </p>
 
     <div class="delete_button">
@@ -21,7 +21,6 @@ function RenderSearches(title,time,id){
   );
 
 }
-
 
 function GetSearches(cb){
 
@@ -42,7 +41,7 @@ function GetSearches(cb){
 
 
       }
-      
+
       cb(past_searches);
 
     }else{
@@ -54,13 +53,13 @@ function GetSearches(cb){
 
 }
 
-
 function SubmitSearch(searched_place){
 
     exit_button = document.querySelector(".exit_weather");
 
     place = searched_place;
-     var location = document.querySelector(".weather_overview_title");
+
+    var location = document.querySelector(".weather_overview_title");
 
     axios.post("/search",{place:searched_place}).then((res)=>{
 
@@ -79,15 +78,16 @@ function SubmitSearch(searched_place){
 
       ClearData();
       PopulateWeather(res.data.day - 1,input.value,chosen_style,weather_data);
-      RenderForcast(forcast_weekly,null)
+      RenderForcast(forcast_weekly,res.data.day - 1);
       AddForcastEvents();
       AddSearchToList(weather_data,input.value);
 
       searches_container.innerHTML = "";
 
       weather_overview_container.classList.remove("inactive");
-      search_bar.classList.add("inactive");
       weather_overview_container.classList.add("weather_main_active");
+
+      search_bar.classList.add("inactive");
 
       exit_weather = document.querySelector(".exit_weather");
       exit_weather.setAttribute("clickable",1);
@@ -105,13 +105,10 @@ function SubmitSearch(searched_place){
       });
 
     }).catch((err)=>{
-
       RenderDefault(true);
-
     });
 
 }
-
 
 function AddPastSearchEvents(){
 
@@ -119,12 +116,12 @@ function AddPastSearchEvents(){
 
   for(var i =0; i < searches_past.length; i++ )
   {
+
     searches_past[i].addEventListener("click",(e)=>{
       var place = e.target.getAttribute("place");
       SubmitSearch(place);
     });
 
   }
-
 
 }

@@ -18,12 +18,12 @@
   opacity: 1;
   transform:scale(1.1);
 }
-#forcast_active{
 
+#forcast_active{
     opacity: 1 !important;
     transform:scale(1.1) !important;
-
 }
+
 .forcast_box{
   transition: all .2s;
   width:100%;

@@ -144,7 +144,7 @@ function RenderForcast(forcast,target){
     {
 
       html+= (`<div class="col-2" >
-          <div class="forcast_box" id=${active} day = ${week[i]} day_counter = ${i}>
+          <div class="forcast_box " id="${active}" day = "${week[i]}" day_counter = "${i}">
               <img class = "forcast_icon" src ='${style.logo}'/>
               <p class="day_forcast" > ${week[i]} </p>
               <p class="temp_forcast" > ${CelsiusConverter(forcast[i].temperatureAvg) +  String.fromCharCode(176)} Average </p>
@@ -205,8 +205,6 @@ function AddForcastEvents(){
 
 }
 
-
-
 function DetermineWeather(weather_data){
 
   var chosen_data;
@@ -223,13 +221,13 @@ function DetermineWeather(weather_data){
     }
 
   }
-
   else if(weather_data.snowIntensityAvg > SNOW_INTENSITY_STANDARD && !has_decided_weather){
 
     if(weather_data.precipitationProbabilityAvg > PRECIPITATION_STANDARD){
       chosen_style = WEATHER_FIXED_CONFIG.snow;
       has_decided_weather = true;
     }
+
   }
   else if(weather_data.precipitationProbabilityAvg > STORM_STANDARD && !has_decided_weather){
     chosen_style = WEATHER_FIXED_CONFIG.storm;
@@ -272,19 +270,14 @@ function DetermineWeather(weather_data){
 submit.addEventListener("submit",(e)=>{
 
   e.preventDefault();
+
   input = document.querySelector(".weather_input");
-  var value = input.innerHTML;
-  SubmitSearch(value);
+
+  var place = input.value;
+
+  SubmitSearch(place);
 
 });
-
-function CelsiusConverter(temp){
-
-  var farenheight = ((temp * 9/5) + 32);
-
-  return Math.round(farenheight);
-
-}
 
 function PopulateDayFromWeek(day,target){
 
@@ -296,7 +289,6 @@ function PopulateDayFromWeek(day,target){
   var chosen_style = DetermineWeather(day_data).chosen_style;
 
   ClearData();
-
 
   if(day_counter < week.length || day > 0){
     day_counter = parseInt(day);
@@ -361,6 +353,7 @@ function PopulateWeather(day,location,style,config){
   var snow_node = document.createTextNode(config.snowIntensityAvg);
   var cloud_node = document.createTextNode(config.cloudCoverAvg+ "%");
   var day_node = document.createTextNode(week[day]);
+
   var location_el = document.querySelector(".weather_overview_title");
   var overview_el = document.querySelector(".weather_overview_weather");
   var tempAv_el = document.querySelector("[info=temperature-average]");
@@ -374,6 +367,7 @@ function PopulateWeather(day,location,style,config){
   var wind_el = document.querySelector("[info=wind-gust]");
   var day_el = document.querySelector(".day_text");
   var video = document.querySelector("#forcast_video");
+
   var source = `<source  id = "forcast_source" src = "${style.img}" type="video/mp4">`
 
   day_el.append(day_node);

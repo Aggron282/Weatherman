@@ -35,7 +35,7 @@ const GetPastSearches =(req,res)=>{
   }
   else{
     res.json(false);
-    
+
   }
 
 }
@@ -256,7 +256,8 @@ const PostWeatherData = async (req,res,next) => {
 
       }
 
-      var now = new Date();
+      var now =  Date.now();
+      console.log(now);
       var user = req.user;
       var data = {
         snapshot:today_weather_data,
@@ -267,8 +268,8 @@ const PostWeatherData = async (req,res,next) => {
           lat:location.latitude,
           lng:location.longitude
         },
-        date: now,
-        day:now.getDay()
+        date: new Date().toJSON().slice(0, 10),
+        day: new Date().getDay()
       };
 
       if(user){
