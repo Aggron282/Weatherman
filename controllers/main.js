@@ -16,8 +16,6 @@ var weather_data = {
   cloudCoverAvg:0,
 }
 
-
-
 var forcast_weekly = [];
 
 const options = {
